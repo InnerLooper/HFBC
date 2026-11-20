@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+<title>JHO Houston Spring 2027 Schedule</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap">
+<style>
+/* Layout: a ranch schedule board. Sticky day tabs, a time rail on the left, one card per program item.
+   Tokens: pine ground, sage neutrals, one saddle-amber accent. Track colors echo the red/green/blue event shirts. */
+:root {
+  --bg: #eef1ec;
+  --surface: #fbfcfa;
+  --fg: #16231e;
+  --muted: #55645d;
+  --line: #d3dad2;
+  --accent: #8a4b12;
+  --accent-soft: #f1e3d2;
+  --pine: #1c3d33;
+  --on-pine: #f2f6f1;
+  --t-all: #2f7a4f;
+  --t-hw: #2a62a8;
+  --t-pt: #b8412f;
+  --t-staff: #6a7570;
+  --bar-fg: #ffffff;
+  --chip: #e3e9e1;
+  --font-d: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+  --font-b: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1b17; --surface: #172721; --fg: #e6eee8; --muted: #9db0a6; --line: #2a3d35;
+    --accent: #e0a35e; --accent-soft: #33281a; --pine: #0b1511; --on-pine: #e6eee8;
+    --t-all: #5fbf88; --t-hw: #6fa3e6; --t-pt: #ee8a78; --t-staff: #98a8a0; --bar-fg: #0b1511; --chip: #22352d;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1b17; --surface: #172721; --fg: #e6eee8; --muted: #9db0a6; --line: #2a3d35;
+  --accent: #e0a35e; --accent-soft: #33281a; --pine: #0b1511; --on-pine: #e6eee8;
+  --t-all: #5fbf88; --t-hw: #6fa3e6; --t-pt: #ee8a78; --t-staff: #98a8a0; --bar-fg: #0b1511; --chip: #22352d;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--font-b); font-size: 15px; line-height: 1.45;
+  padding-block: 0 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 920px; margin: 0 auto; }
+header.top { margin: 0 calc(-1 * max(16px, env(safe-area-inset-left, 0px))) 0; padding: 22px max(16px, env(safe-area-inset-left, 0px)) 18px; background: var(--pine); color: var(--on-pine); }
+header.top .wrap { display: flex; flex-wrap: wrap; gap: 6px 24px; align-items: end; justify-content: space-between; }
+.eyebrow { font-family: var(--font-d); font-weight: 600; letter-spacing: .12em; text-transform: uppercase; font-size: 13px; opacity: .8; }
+h1 { font-family: var(--font-d); font-weight: 700; font-size: clamp(30px, 6vw, 44px); line-height: 1; margin: 4px 0 0; text-wrap: balance; }
+.sub { font-size: 14px; opacity: .85; min-width: 0; }
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); margin: 0 calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding: 10px max(16px, env(safe-area-inset-left, 0px)) 10px; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.tab { font: 600 15px var(--font-d); letter-spacing: .04em; text-transform: uppercase; border: 1px solid var(--line); background: var(--surface); color: var(--fg); padding: 7px 12px; border-radius: 6px; cursor: pointer; }
+.tab small { font-weight: 500; opacity: .7; margin-left: 4px; text-transform: none; letter-spacing: 0; }
+.tab[aria-pressed="true"] { background: var(--pine); color: var(--on-pine); border-color: var(--pine); }
+.views { margin-left: auto; display: flex; gap: 0; }
+.views .tab { border-radius: 0; }
+.views .tab:first-child { border-radius: 6px 0 0 6px; }
+.views .tab:last-child { border-radius: 0 6px 6px 0; }
+.views .tab + .tab { margin-left: -1px; }
+.filters { margin-top: 8px; }
+select, input[type=search] { font: 500 14px var(--font-b); color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 7px 9px; min-width: 0; max-width: 100%; }
+input[type=search] { flex: 1 1 160px; }
+select { flex: 0 1 190px; }
+label.chk { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.status { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; justify-content: space-between; margin: 14px 0 8px; color: var(--muted); font-size: 13px; }
+button.ghost { font: 500 13px var(--font-b); color: var(--accent); background: none; border: 1px solid var(--line); border-radius: 6px; padding: 5px 10px; cursor: pointer; }
+.daytitle { font-family: var(--font-d); font-weight: 700; font-size: 26px; margin: 18px 0 8px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.daytitle span { font-size: 14px; font-weight: 500; color: var(--muted); font-family: var(--font-b); }
+.item { display: grid; grid-template-columns: 86px minmax(0, 1fr); gap: 0 14px; padding: 11px 0; border-top: 1px solid var(--line); }
+.time { font-family: var(--font-d); font-weight: 600; font-size: 19px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.time .end { display: block; font-weight: 500; font-size: 14px; color: var(--muted); margin-top: 2px; }
+.time sup { font-size: 10px; color: var(--accent); }
+.card { min-width: 0; border-left: 4px solid var(--t-staff); padding-left: 12px; }
+.card.g-A { border-color: var(--t-all); } .card.g-H { border-color: var(--t-hw); } .card.g-P { border-color: var(--t-pt); }
+.name { font-weight: 600; font-size: 16px; overflow-wrap: anywhere; }
+.meta { color: var(--muted); font-size: 13.5px; margin-top: 1px; }
+.meta b { color: var(--fg); font-weight: 600; }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+.chip { font-size: 12px; font-weight: 500; background: var(--chip); border-radius: 999px; padding: 2px 9px; }
+.chip.g { background: none; border: 1px solid currentColor; font-weight: 600; }
+.chip.g-A { color: var(--t-all); } .chip.g-H { color: var(--t-hw); } .chip.g-P { color: var(--t-pt); }
+.chip.warn { background: var(--accent-soft); color: var(--accent); }
+.notes { white-space: pre-line; font-size: 13.5px; margin-top: 6px; padding: 6px 9px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; overflow-wrap: anywhere; }
+.empty { padding: 36px 0; text-align: center; color: var(--muted); }
+details.grp { border-top: 1px solid var(--line); padding: 8px 0; }
+details.grp summary { cursor: pointer; font-family: var(--font-d); font-weight: 700; font-size: 21px; list-style: none; display: flex; gap: 10px; align-items: baseline; }
+details.grp summary::-webkit-details-marker { display: none; }
+details.grp summary small { font: 500 13px var(--font-b); color: var(--muted); }
+details.grp summary::before { content: "▸"; font-size: 14px; color: var(--accent); transition: transform .15s; }
+details.grp[open] summary::before { transform: rotate(90deg); }
+.mini { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 2px 12px; padding: 7px 0; border-top: 1px dashed var(--line); font-size: 14px; }
+.mini .when { color: var(--muted); font-variant-numeric: tabular-nums; }
+.mini .nm { font-weight: 600; overflow-wrap: anywhere; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px; color: var(--muted); margin-top: 10px; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 6px; vertical-align: -2px; }
+.foot { margin-top: 28px; font-size: 12.5px; color: var(--muted); }
+.gantt { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.g-head, .g-lane { display: flex; }
+.g-lbl { flex: 0 0 132px; position: sticky; left: 0; z-index: 2; background: var(--surface); border-right: 1px solid var(--line); padding: 6px 8px; font: 600 13px var(--font-b); overflow-wrap: anywhere; min-width: 0; }
+.g-lbl small { display: block; font-weight: 500; color: var(--muted); font-size: 11.5px; }
+.g-axis { position: relative; height: 28px; flex: none; border-bottom: 1px solid var(--line); }
+.g-head .g-lbl { border-bottom: 1px solid var(--line); }
+.g-tick { position: absolute; top: 0; bottom: 0; border-left: 1px solid var(--line); padding: 5px 0 0 4px; font: 600 12px var(--font-d); letter-spacing: .03em; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.g-lane { border-top: 1px solid var(--line); }
+.g-track { position: relative; flex: none; background-image: linear-gradient(to right, var(--line) 1px, transparent 1px); }
+.g-bar { position: absolute; height: 26px; border: 0; border-radius: 4px; padding: 0 6px; background: var(--t-staff); color: var(--bar-fg); font: 600 12px var(--font-b); text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+.g-bar.b-A { background: var(--t-all); } .g-bar.b-H { background: var(--t-hw); } .g-bar.b-P { background: var(--t-pt); }
+.g-bar.m { outline: 1px dashed var(--fg); outline-offset: -2px; }
+.g-bar.sel { outline: 2px solid var(--fg); outline-offset: 1px; z-index: 1; }
+.g-detail { margin-top: 10px; min-height: 40px; }
+.g-hint { font-size: 13px; color: var(--muted); padding: 10px 0; }
+@media (max-width: 520px) {
+  .g-lbl { flex-basis: 96px; font-size: 12px; }
+  .item { grid-template-columns: 70px minmax(0, 1fr); gap: 0 10px; }
+  .time { font-size: 17px; }
+  .mini { grid-template-columns: minmax(0, 1fr); }
+  .views { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<header class="top"><div class="wrap">
+  <div>
+    <div class="eyebrow">JH Outback Houston · Stillwaters Ranch</div>
+    <h1>Weekend Schedule, Spring 2027</h1>
+  </div>
+  <div class="sub">Friday Apr 2 – Sunday Apr 4, 2027<br><span style="opacity:.85">Next up: Fall 2027 Outback · Nov 5–7, 2027</span></div>
+</div></header>
+
+<div class="bar"><div class="wrap">
+  <div class="row">
+    <div class="tabs" id="dayTabs" role="group" aria-label="Day"></div>
+    <div class="views" role="group" aria-label="View">
+      <button class="tab" id="vSchedule" aria-pressed="true">Schedule</button>
+      <button class="tab" id="vTimeline" aria-pressed="false">Timeline</button>
+      <button class="tab" id="vTeams" aria-pressed="false">By team</button>
+      <button class="tab" id="vSpeakers" aria-pressed="false">Speakers</button>
+    </div>
+  </div>
+  <div class="row filters">
+    <select id="track" aria-label="Audience track">
+      <option value="all">Everything</option>
+      <option value="guest">Guest-facing only</option>
+      <option value="H">Husband &amp; Wife track</option>
+      <option value="P">Parent &amp; Teen track</option>
+      <option value="staff">Staff prep only</option>
+    </select>
+    <select id="team" aria-label="Team"><option value="">All teams</option></select>
+    <select id="gb" aria-label="Group timeline lanes by" hidden>
+      <option value="team">Lanes: by team</option>
+      <option value="loc">Lanes: by place</option>
+      <option value="time">Lanes: by start time</option>
+    </select>
+    <input type="search" id="q" placeholder="Search programs, places, notes" aria-label="Search">
+    <label class="chk" id="asWrap" hidden><input type="checkbox" id="incAS" checked> Include All Staff items</label>
+  </div>
+</div></div>
+
+<main class="wrap">
+  <div class="status"><span id="count"></span><span class="row"><button class="ghost" id="copy">Copy this list</button></span></div>
+  <div id="out"></div>
+  <div class="legend">
+    <span><i style="background:var(--t-all)"></i>All guests</span>
+    <span><i style="background:var(--t-hw)"></i>Husband &amp; Wife</span>
+    <span><i style="background:var(--t-pt)"></i>Parent &amp; Teen</span>
+    <span><i style="background:var(--t-staff)"></i>Staff only</span>
+  </div>
+  <p class="foot">Spring 2027 draft, started from the Fall 2026 JHO Houston schedule in Notion (copied Nov 19, 2026). Times and assignments are placeholders until the Spring schedule is finalized. Save the date: Fall 2027 Outback, Friday Nov 5 – Sunday Nov 7, 2027.</p>
+</main>
+
+<script>
+var TEAMS = {HT:"Host Team",GG:"Grounds & Parking Team",MT:"Merchandising Team",RG:"Guest Registration Team",PY:"Prayer Team",AP:"Agape Team",AV:"Worship A/V Team",HW:"Husband & Wife Coaches",VR:"Volunteer Registration Team",AR:"Activities & Recreation Team",AS:"All Staff",LL:"Lay Leader",PT:"Parent & Teen Coaches",EM:"Emcee",SK:"Speaker Team",KT:"Kitchen Team",CC:"Contract Cleaning Company"};
+var LOCS = {mh:"Main House",sr:"Stillwaters Ranch",sp:"Sam's Place",mb:"Main Building Breezeway",cp:"Calvert Prayer Haus",gp:"Guest Parking",gt:"Guest Tents",st:"Staff Tents",aa:"Adventure Activity Area",bp:"Back Porch",lo:"The Lodge",by:"Back Yard",sb:"Sam's Place Back Porch",ig:"Island Green",mk:"Main Kitchen",bz:"Breezeway",xl:"Across Lake: Cross/Oak Tree",bn:"Storage Barn",gv:"The Grove",va:"Various",br:"Bathrooms & Showers"};
+var GUEST = {A:"All Guests",H:"Husband & Wife",P:"Parent & Teen"};
+var DAYS = [{n:"Friday",d:"Apr 2"},{n:"Saturday",d:"Apr 3"},{n:"Sunday",d:"Apr 4"}];
+
+/* [start, end, program, teams, locations, guests, speaker, notes]. Times are the local clock times Notion displays ("1/HH:MM", 24-hour). */
+var DATA = [
+[
+["1/08:00", "1/09:00", "Staff Breakfast", "HT", "mh", "", "", ""],
+["1/09:00", "1/10:40", "Facilities & Grounds Setup", "GG", "sr", "", "", "Mats, Rodeo Layout & Hay, Hay, Elf Chairs per drawing, Sam's Place Stage & StopLight"],
+["1/09:00", "1/11:00", "Marketing Table Setup", "MT", "sp", "", "", "at main entry porch (outside nearest Kitchen)"],
+["1/09:00", "1/10:40", "Team Assignments", "RG", "mb", "", "", "Guest Registration Spreadsheet, Review with Coach Leaders"],
+["1/09:00", "1/10:40", "Calvert Haus Setup", "PY", "cp", "", "", "Final Prayer Barn- Calvert Haus Decorations and Clean"],
+["1/09:00", "1/10:40", "Stage inventory, Bathrooms, Assign Duties", "AP", "sp", "", "", "Talk&Drama props moved to Big Top backdrop and to Sam's (girls BedRm); Sam's table set up"],
+["1/09:00", "1/09:30", "A-Frame Ladder to Sam's Place Stage", "GG", "sp", "", "", "ladder in Sam's storage room; move it early for Band & A/V lighting & sound setup, store behind backdrop"],
+["1/09:00", "1/10:40", "Guest Parking/Greeting/set-up", "GG", "gp", "", "", "Cones (if necessary), car ID numbers, tape, key tags, tracking spreadsheet, communicate gameplan"],
+["1/09:00", "1/10:40", "Guest Registration Setup", "RG", "mb", "", "", "2 - 8' tables, 4 chairs, guest packets, money box, guest list, pens, highlighters, assignments"],
+["1/09:00", "1/10:40", "Sam's Place A/V Setup", "AV", "sp", "", "", "Sound board setup; last minute equipment placement; sound & video checks"],
+["1/09:00", "1/12:00", "HW Coaches Meeting", "HW", "lo", "", "", "Adjust Lodge furniture; connect audio visual (DVD)"],
+["1/09:00", "1/10:40", "Sam's Setup (Final Touches)", "AP", "sp", "", "", "Final Check on Sam's Place tables & chairs per drawing"],
+["1/09:00", "1/11:00", "Staff Sign-in", "VR", "mh", "", "", "Waiver form; team assignments; housing assignments"],
+["1/09:00", "1/10:40", "Complete Set Up Tents", "GG", "gt|st", "", "", "Guest Tent Setup / Staff Tent Setup - If Poor Weather on Thursday"],
+["1/10:00", "1/12:00", "Adventure Activity Training", "AR", "aa", "", "", "Give training to 10+ coaches; include 4-6 other experienced staff; H/W will review for attending"],
+["1/12:00", "1/12:45", "STAFF LUNCH", "AS", "bp", "", "", ""],
+["1/12:45", "1/13:00", "Lay Leader Pep Talk", "LL|AS", "bp", "", "", ""],
+["1/13:00", "1/13:15", "Staff Group Photo / Video", "AS", "sp", "", "", ""],
+["1/13:15", "1/13:30", "Rodeo Music Setup", "AV", "bp", "", "", ""],
+["1/13:15", "1/13:45", "Team Meetings", "AS", "sr", "", "", "a time for each team to meet for final encouragement, reminders, and guidelines"],
+["1/13:15", "1/13:45", "Guest Reg & Staff Meetings", "PT|HW|RG", "sp", "", "", "Review Check-In procedures"],
+["1/13:15", "1/13:45", "Coaches Meeting", "PT|HW", "sp", "", "", "H/W & P/T Coaches packets / sample coaches packet"],
+["1/13:30", "1/14:45", "Pray Over Tent & Facilities", "PY", "sr", "", "", "Guest, Staff, Prayer Barn, Big Top, Sam's, Bath Houses, Pathway"],
+["1/13:30", "1/16:00", "Sam's Place Sound Check & Setup", "AV", "sp", "", "", ""],
+["1/13:45", "1/14:45", "Team Bandanas and Décor on Tables", "AP", "sp", "", "", "Bandanas for team tables, finishing touches"],
+["1/13:45", "1/14:45", "Set Up for Life Purpose Talk", "AP|SK", "sp", "", "", "Bandanas on elf chairs; props in place"],
+["1/13:45", "1/14:45", "Final Preparations", "AS", "sr", "", "", ""],
+["1/14:00", "1/17:30", "Sound Check & Upbeat Music", "AV", "sp", "", "", ""],
+["1/15:00", "1/16:30", "Guest Valet Parking Service", "GG", "gp", "A", "", "Recruit available staff for help ... 3 Carts/Mules, Luggage tags, Guest roster"],
+["1/15:00", "1/17:45", "Set Tables for Dinner", "KT", "sp", "", "", "Set up tables with utensils, cups, and pitchers of water/tea/juice."],
+["1/15:00", "1/16:30", "Guest Arrival, Greetings, Sign In, Property Tour", "RG|AS", "gp", "A", "", "RING BELL ONCE ON 1st GUEST ... Guest Registration Spreadsheet, Review with all Coach Leaders"],
+["1/16:00", "1/16:20", "Pray over Emcee", "PY|EM|SK", "cp", "", "", ""],
+["1/17:00", "1/17:50", "PC RODEO", "PT", "sb", "P", "", "Move all staff and guests to rodeo"],
+["1/17:00", "1/18:10", "HW Session 1", "HW", "lo|by", "H", "", "Intro KMH (p1-3)"],
+["1/18:10", "1/19:00", "Bless & Serve Dinner", "EM", "sp", "A", "", ""],
+["1/18:10", "1/18:15", "Welcome Bags", "AP", "gt", "", "", "When guests are at dinner at Sam's"],
+["1/18:15", "1/18:30", "Illuminate the Cross", "GG", "xl", "", "", ""],
+["1/19:00", "1/19:20", "Welcome & Orientation", "EM|SK", "sp", "A", "", ""],
+["1/19:00", "1/19:10", "Slide Deck Prep", "AV", "sp", "", "", "Band warmup during this time?"],
+["1/19:10", "1/19:25", "Pray over Worship Band & A/V", "PY", "cp", "", "Devin Hall", "Include Robbie Seay"],
+["1/19:20", "1/19:50", "PC Coat of Arms (Distribute & Complete)", "AP|PT", "sp", "P", "", "Per Table: Firm printer paper, 1 set of markers"],
+["1/19:20", "1/20:20", "HW Session 2", "EM|HW", "lo", "H", "", "HW KMH pg 4-11"],
+["1/19:25", "1/19:40", "Pray Over Life Purpose Speaker (Travis Crim)", "PY|SK", "cp", "", "Devin Hall", "Include Robbie Seay"],
+["1/19:50", "1/20:00", "PC Individual Talk to Youth & Parents", "PT|EM", "sb", "P", "", ""],
+["1/20:00", "1/20:15", "Sam's Place Clean Up", "KT", "sp", "", "", "Setup Elf Chairs - Take up food before Coat of Arms if Possible"],
+["1/20:00", "1/20:30", "PC Break, Head to Sam's Place", "", "sp", "P", "", "Guests take passport, and bag  --  Announced: 10 min, Scheduled: 15 min"],
+["1/20:10", "1/20:15", "Set up Ladder on Sam's Place Stage", "GG", "sp", "", "", "Elf Chairs Set-Up - Wait until H/W activity starts wrapping up"],
+["1/20:30", "1/20:40", "Final Touches for Life Purpose Talk", "AP|SK", "sp", "", "", "Support the Speaker (props already in place)"],
+["1/20:30", "1/20:45", "Praise & Worship", "AV", "sp", "A", "Robbie Seay", ""],
+["1/20:45", "1/21:40", "Life Purpose Talk", "SK", "sp", "A", "Travis Crim", "Dismiss to Huddle Groups"],
+["1/21:40", "1/22:10", "Guest Dessert in Breezeway & Huddle Groups", "HW|PT|KT", "sp|lo", "A", "", ""],
+["1/21:40", "1/22:10", "Light Background Music", "AV", "sp", "", "", ""],
+["1/22:00", "1/23:00", "Staff Dessert", "AS|KT", "bz", "", "", ""],
+["1/22:10", "1/23:00", "Guest Fellowship & Prepare for Bed", "AP|GG", "", "A", "", ""],
+["1/22:10", "1/23:00", "Sam’s Place Rearrange for breakfast", "AP|GG", "", "", "", ""],
+["1/22:15", "1/22:30", "Sam's Place Clean Up", "GG", "sp", "", "", "After guests leave: Reset elf chairs to diagram, pick up trash, haul trash, replace liners"],
+["1/22:15", "1/22:30", "Golf Carts Plugged in to Charge", "GG", "bn", "", "", ""],
+["1/22:15", "1/22:30", "Take Down Life Purpose Talk", "AP|SK", "sp", "", "", "After guests leave: Return props to behind backdrop; check/re-tie elf chair bandanas"],
+["1/22:15", "1/22:30", "Return A-frame Ladder", "GG", "sp", "", "", "After guests leave: return ladder to Sam's storage"],
+["1/23:00", "1/23:30", "Snack Area Straighten Up", "KT", "sp", "", "", "Snacks remain overnight"],
+["1/23:00", "1/23:30", "Guest Bed Time - Lights Out", "GG", "gt", "A", "", ""]
+],
+[
+["1/09:30", "1/10:15", "Dismiss → HW Session 3", "HW|EM", "lo", "H", "", "KMH pg 13-16"],
+["1/10:10", "1/12:30", "PC Adventure Activities", "PT|AR", "aa", "P", "", ""],
+["1/10:15", "1/10:30", "HW Break Time", "HW", "lo", "H", "", ""],
+["1/10:30", "1/11:00", "HW Session 4", "HW", "lo", "H", "", ""],
+["1/04:30", "1/06:00", "Make Coffee & Hot Chocolate", "KT", "mk", "", "", ""],
+["1/11:00", "1/12:30", "HW Trust Walk", "GG|HW", "bp", "H", "", "Testimony"],
+["1/06:00", "1/09:00", "Morning Deep Cleaning", "CC", "br", "", "", ""],
+["1/12:00", "1/12:30", "Live & Streaming Music", "AV", "sp", "", "", ""],
+["1/12:00", "1/12:30", "Sam's Place Setup", "KT", "sp", "", "", ""],
+["1/06:00", "1/06:15", "Setup G.O.D. banner", "GG", "sp", "", "", ""],
+["1/06:00", "1/06:15", "Deliver Golf Carts & Coffee", "GG", "sp", "", "", ""],
+["1/06:30", "1/07:00", "Pray over Salvation Talk Speaker", "PY|SK", "cp", "", "", ""],
+["1/06:30", "1/07:00", "Play Wake-up Music", "AV", "gt", "", "", ""],
+["1/06:30", "1/07:30", "Guest Coffee Service → Transition to Island", "KT", "ig", "A", "", "(Near Old Big Top Site) Kitchen team transports downhill via Golf Cart"],
+["1/06:45", "1/07:20", "Set up Life Purpose Activity Posters", "AP", "sp", "", "", ""],
+["1/13:00", "1/14:00", "HW Session 5", "EM|HW", "lo", "H", "", "KMH pg 17-19"],
+["1/07:15", "1/07:30", "Sound check at Island", "AV", "ig", "", "", ""],
+["1/07:30", "1/08:00", "Salvation Talk", "AS", "ig", "A", "Rolanda Williams", ""],
+["1/13:45", "1/14:00", "Clean up Sam's Place", "GG|KT", "sp", "", "", "Half Room Rearranged - remove HW tables"],
+["1/13:45", "1/14:45", "Sound Check", "AV", "sp", "", "", ""],
+["1/13:45", "1/14:45", "Abiding Talk to Grounds Crew & Agape", "AP|GG", "mh", "", "Fred Caldwell", "All agape and grounds to attend in the Main House"],
+["1/13:45", "1/14:45", "Dismiss → PC Discussion - Adventure Activity Experience", "PT|EM", "sr", "P", "", ""],
+["1/08:00", "1/08:20", "Transition to Back Porch", "AS", "bp", "A", "", ""],
+["1/14:00", "1/16:30", "HW Session 6", "HW", "lo", "H", "", "KMH pg 21-26, pg 56\n(Emotional Cup, Confession Forgiveness, Debrief)"],
+["1/08:00", "1/08:15", "Set-up Sam's Place", "KT", "bp", "", "", ""],
+["1/08:00", "1/08:15", "Set up Breakfast Skit", "KT", "bp", "", "", ""],
+["1/14:15", "1/14:30", "Pray over Dating Skit & Talk Speaker", "PY|SK", "cp", "", "", ""],
+["1/08:20", "1/08:30", "Breakfast Skit", "AS", "bp", "A", "Chad Roberts", "Set-up table and breakfast plate"],
+["1/08:25", "1/09:00", "Live & Streaming Music", "AV", "sp", "", "", ""],
+["1/14:30", "1/14:50", "Pray over Journey of Parenting", "PY|SK", "cp", "", "", ""],
+["1/08:30", "1/09:00", "Pray over Gratitude Talk speaker", "PY|SK", "mh", "", "", ""],
+["1/08:30", "1/09:00", "Bless & Serve Breakfast", "EM|AS|KT", "sp", "A", "", ""],
+["1/14:30", "1/14:55", "Set up Dating Skit & Talk props", "AP|SK", "sp", "", "", "2 Folding Chairs, Bible, Music Stand ... (no buzzer - Travis has his own)"],
+["1/09:00", "1/09:30", "Gratitude Talk", "AS", "sp", "A", "Eric Lewis", ""],
+["1/15:00", "1/15:45", "Dating Talk & Skit", "PT", "sp", "P", "Travis Crim", "40 Minutes"],
+["1/09:25", "1/09:30", "Life Purpose Poster Supplies to Tables", "AP", "sp", "", "", "Poster board, markers, tape for hanging boards, Make sure tables are clean"],
+["1/15:30", "1/16:00", "Pray over JOP Speakers", "PY|SK", "", "", "", ""],
+["1/15:30", "1/17:30", "Set-Up Husband Wife Dinner", "KT|RG|GG", "lo", "", "", "Set up tables, chairs, decor, food prep"],
+["1/09:30", "1/09:50", "PC Life Purpose Posters", "PT|EM", "sp", "P", "", ""],
+["1/15:45", "1/16:30", "Parent Huddle Groups", "PT", "sr", "P", "", ""],
+["1/15:45", "1/16:30", "Teens Huddle Groups (Include Purity Message)", "PT", "sr", "P", "", "TEENS ONLY - separate by boys & girls -- over-teen's released to free time"],
+["1/09:50", "1/10:10", "PC Transition to Activities", "PT|AR", "aa", "P", "", "KH: Is this really all guests or just PC?"],
+["1/16:00", "1/16:10", "Hang Journey of Parenting Banner", "GG", "sp", "", "", "Wait for H/W guests to finish ... stored behind backdrop ...secure further back onstage"],
+["1/10:00", "1/10:10", "Take Down Life Purpose Talk", "AP", "sp", "", "", "Remove boxes; redecorate tables; store supplies; AVOID BREEZEWAY RAMP !"],
+["1/16:00", "1/16:15", "Final Touches for Journey of Parenting Talk", "AP|SK", "sp", "", "", "Support the speaker -- props in place; pass out J.O.T. brochures"],
+["1/10:05", "1/10:20", "Clean up Sam's Place", "KT|GG", "sp", "", "", "Kitchen: Take up food before Life Purpose Posters if possible Grounds: Reset furniture, haul trash"],
+["1/16:30", "1/17:30", "Journey of Parenting Talk", "AS|HW", "sp", "A", "", "All Adults Encouraged to Attend"],
+["1/16:30", "1/17:30", "Teen Activity Time", "AR", "sr", "P", "", "Big Top Pad or Park"],
+["1/16:30", "1/17:00", "Set-Up Date Night Dinner", "GG|HW", "lo", "", "", "Krisi Monsivaiz"],
+["1/17:00", "1/17:30", "Coaches Dinner", "HW", "mh", "", "", "2 tables in the Lodge kitchen with 8 chairs"],
+["1/17:30", "1/17:45", "Remove Journey of Transition Banner", "GG", "sp", "", "", "Place backstage in Agape area"],
+["1/17:30", "1/17:45", "AV: Sound Check, Power Point", "AV", "sp", "", "", ""],
+["1/17:30", "1/18:00", "Pray over Parent Talk/Giving Tree Speaker", "PY|SK", "", "", "", "Earlier so he can eat and get ready, Prayer later again if desired"],
+["1/17:30", "1/17:50", "Bathroom Break, Head to Sam's Place", "", "sp", "A", "", "Prepare for Dinner Set-Up"],
+["1/17:30", "1/17:45", "Set up for Giving Tree / Parent Talk", "AP|SK", "sp", "", "", "Parent Talk Props: re-tie elf chair bandanas; paper; envelopes; pens; letter basket"],
+["1/17:30", "1/17:45", "Clean up Sam's Place", "GG", "sp", "", "", "Reset elf chairs per drawing; pickup trash; haul trash; replace liners"],
+["1/11:35", "1/11:55", "Hang Guest’s Life Posters", "AP", "sp", "", "", ""],
+["1/17:45", "1/19:00", "HW Date Night Dinner & Live Music", "HW|AV", "lo", "H", "", "HW Coaches serve guests aprons"],
+["1/17:45", "1/18:25", "Live & Streaming Music", "AV", "sp", "", "", ""],
+["1/17:50", "1/18:35", "Place Guest Items in Tents", "AP", "gt", "", "", "Deliver mint bags & Living Waters to tents; use tent schematic; turn on lanterns"],
+["1/18:25", "1/18:50", "Final Touches for Giving Tree / Parent Talk", "AP|SK", "sp", "", "", "Support the speaker -- props in place"],
+["1/12:30", "1/13:00", "Bless and Serve Lunch", "KT|EM", "sp", "A", "", ""],
+["1/13:00", "1/13:45", "Ten Commandments Talk", "SK", "sp", "P", "Travis Crim", "Make sure Travis knows his end time"],
+["1/19:00", "1/19:15", "Travis Crim Dance Party", "", "sp", "A", "Travis Crim", ""],
+["1/19:15", "1/19:35", "Praise and Worship", "AV", "sp", "A", "", ""],
+["1/19:35", "1/20:35", "Giving Tree / Parent Talk", "", "sp", "A", "Peter Barnhart", "Giving Tree AV Slides, Giving Tree Book, 60 minutes"],
+["1/20:35", "1/22:35", "Background music for Letter Writing", "AV", "sp", "", "", ""],
+["1/20:35", "1/22:35", "Dessert in Breezeway", "KT", "sp", "A", "", ""],
+["1/14:45", "1/15:00", "Play Music to call PC Back to Sam’s", "AV", "sp", "", "", ""],
+["1/22:00", "1/23:00", "Replenish snacks", "KT", "bp", "", "", "In Front of Lodge - Leave Tables/TableCloth over night HW breakfast - Tables and tableclothes"],
+["1/22:15", "1/22:30", "Golf Carts Plugged in to Charge", "GG", "bn", "", "", "Before bedtime"],
+["1/22:35", "1/22:50", "Take Down Giving Tree / Parent Talk", "AP|SK", "sp", "", "", "Props to backdrop; re-tie bandanas per schematic; affirmation box to Main House porch"],
+["1/22:35", "1/22:50", "Sam's Place Clean Up", "GG", "sp", "", "", "After guests leave: Reset elf chairs to diagram, pick up trash, haul trash, replace liners"],
+["1/23:00", "1/23:10", "Straighten snack area", "KT", "sp", "", "", "Snacks remain overnight in Sam's Place"],
+["1/17:50", "1/18:35", "Bless & Serve Dinner", "KT|EM", "sp", "P", "", "Coaches and Staff Serving Guests - guests to salad bar - Grounds bring elf chairs to back of Sam's Place"],
+["1/18:35", "1/19:00", "Activity for Groups", "", "sp", "P", "", "Dismiss PC for 20 mins to freshen up for Dance Party\n\nRearrange the Room - Elf Chairs - 15 min Break. Remind Guests to bring passports to Big Top, Guest Dessert Outside - 2 tables porch of Sam's Place"],
+["1/22:35", "1/23:00", "Guest Bed Time", "", "gt", "A", "", ""],
+["1/23:00", "1/23:45", "Finish Deep Cleaning", "CC", "br", "", "", ""]
+],
+[
+["1/06:00", "1/06:15", "Deliver Golf Cart for Drinks Transport", "GG", "sp", "", "", ""],
+["1/06:00", "1/06:15", "Sound Check in Sam's Place", "AV", "sp", "", "", ""],
+["1/06:05", "1/06:15", "Move Cross & Audio to Lake Putting Green", "GG", "", "", "", "including mic, speakers, and speaker battery"],
+["1/06:15", "1/06:15", "Start Fire at Fire Pit", "GG", "", "", "", ""],
+["1/06:20", "1/06:30", "Sound Check in Sam's Place", "AV", "sp", "", "", ""],
+["1/06:30", "1/06:45", "Set up Dying Moments Talk", "AP|SK", "", "", "", "Nails; 5 buckets; 5 hammers; 250 index cards; 2 stage pen containers"],
+["1/06:30", "1/07:00", "Pray over Dying Moments Speaker", "PY|SK", "", "", "", ""],
+["1/06:30", "1/07:30", "Guest Coffee Service", "KT", "ig", "A", "", "Food Services & Grounds teams transports downhill via Golf Cart"],
+["1/06:30", "1/07:30", "HW Pack Luggage First → Coffee", "HW", "", "H", "", ""],
+["1/06:45", "1/07:00", "Wakeup music", "AV", "", "", "", ""],
+["1/06:45", "1/06:55", "Sound Check at Putting Green", "GG", "", "", "", ""],
+["1/07:00", "1/07:30", "Breakfast Delivery", "KT", "sp", "", "", ""],
+["1/07:30", "1/08:00", "Dying Moments Talk", "AS", "ig", "A", "Jason Bechtold", "All Guests & Staff together for Spring 2025"],
+["1/07:30", "1/08:00", "Sam's Place Table Prep", "KT", "sp", "", "", ""],
+["1/07:30", "1/07:30", "Morning Deep Cleaning", "CC", "br", "", "", ""],
+["1/07:45", "1/07:55", "Take Down Dying Moments Talk", "AP|SK", "", "", "", "Remove nails (special team); take supplies to Big Top backdrop"],
+["1/08:00", "1/08:25", "Guests: Packing Instructions", "EM", "ig", "A", "", ""],
+["1/08:00", "1/08:15", "Coaches Review Affirmation Time", "PT|HW", "sp", "", "", "20 minutes"],
+["1/08:00", "1/08:15", "HW Lodge Breakfast", "HW", "lo", "H", "", ""],
+["1/08:15", "1/08:45", "HW Final Session & Wrap Up", "HW", "lo", "H", "", ""],
+["1/08:30", "1/08:55", "Tear Down Tables and Decorations", "AP", "sp", "", "", "Decorations stored per blue box labels; take boxes to Agape room"],
+["1/08:30", "1/08:45", "ALL STAFF MEETING", "AS", "sp", "", "", ""],
+["1/08:40", "1/09:00", "Pray over Abiding Talk Speaker", "PY|SK", "", "", "", ""],
+["1/08:45", "1/09:40", "HW Trust Fall", "HW", "bp", "H", "", ""],
+["1/08:55", "1/09:55", "Move Luggage to Cars", "GG", "", "", "", "Check pockets & seams before leaving"],
+["1/08:55", "1/09:55", "Clear & Break Down Tents", "AP|GG", "", "", "", ""],
+["1/09:05", "1/10:00", "Tent Take Down & Luggage Removal", "AS", "", "", "", ""],
+["1/09:10", "1/09:40", "PC Topic: Favorite Memory", "PT", "", "P", "", ""],
+["1/09:40", "1/09:50", "Transition to The Grove", "PT|HW", "gv", "A", "", ""],
+["1/09:50", "1/10:00", "Praise and Worship @ the Grove", "AV", "gv", "A", "", "P/C guests & staff; shortened to 25 minutes from 30"],
+["1/10:00", "1/10:40", "Abiding Talk", "AS", "gv", "A", "Fred Caldwell", ""],
+["1/10:20", "1/12:00", "Quiet Tent Take Down & Luggage Removal", "AS", "", "", "", ""],
+["1/10:40", "1/11:10", "Abiding Solo Time", "AS", "va", "A", "", ""],
+["1/05:00", "1/06:00", "Make Coffee & Hot Chocolate", "KT", "mk", "", "", ""],
+["1/12:05", "1/13:05", "Set up & Clean up Sam's Place for Closing Share Time", "AP|SK|GG", "sp", "", "", "Remove bandanas. Prepare to: pass out commit cards, surveys, pens"],
+["1/08:25", "1/09:05", "Bless & Serve Breakfast / JH Ranch Video", "KT|EM|HT", "sp", "A", "", ""],
+["1/15:00", "1/17:00", "Take Down, Clean Up Stillwaters, HW Lodge", "AS", "", "", "", "From the closing of the event until all work is completed\n+E2"],
+["1/17:00", "1/18:00", "Team Dinner", "AS", "", "", "", ""],
+["1/11:10", "1/11:35", "Instructions for Solo & Box Lunch", "EM", "sp", "A", "Brian Cook", "Notion lists the end time as 11:35 PM; shown here as 11:35 AM.\nEmcee will give instructions and dismiss to pickup lunch afterwards"],
+["1/11:35", "1/12:25", "Guest Affirmation Solo & Lunch", "", "va", "A", "", "Coaches hand packets to guests"],
+["1/11:45", "1/12:45", "Early Staff Lunch Available", "AS", "sp", "", "", "Headstart for those that need it"],
+["1/11:45", "1/11:55", "Affirmation letters to Coaches", "PT|HW|RG", "", "", "", "Get Affirmation Letters from Guest Registration before dating talk"],
+["1/12:25", "1/12:30", "Guests Transition to Sam’s Place", "", "sp", "A", "", ""],
+["1/12:30", "1/12:55", "Butterfly Talk", "AS", "sp", "A", "Travis Crim", ""],
+["1/12:55", "1/13:10", "Praise & Worship @ Sams", "AS|AV", "sp", "A", "Robbie Seay", ""],
+["1/19:00", "1/19:00", "Take Trash to Dumpster", "AS", "mh", "", "", ""],
+["1/13:10", "1/14:00", "JH Drawing & Testimony Time", "HT", "sp", "A", "", ""],
+["1/14:00", "1/14:00", "Guest Departure", "AS", "sp", "A", "", "Valet Parking & Luggage Team to Assist"]
+]
+];
+
+/* ---------- model ---------- */
+function mins(t){ var p=t.split("/"), hm=p[1].split(":"); return (p[0]==="2"?1440:0)+(+hm[0])*60+(+hm[1]); }
+var ITEMS = [];
+DATA.forEach(function(day, di){
+  day.forEach(function(r){
+    var s=mins(r[0]), e=mins(r[1]);
+    ITEMS.push({id:ITEMS.length, day:di, s:s, e:e, endOk:e>s, name:r[2],
+      teams:r[3]?r[3].split("|"):[], locs:r[4]?r[4].split("|"):[], g:r[5], speaker:r[6], notes:r[7]});
+  });
+});
+var st = {day:0, view:"schedule", track:"all", team:"", q:"", incAS:true, off:0, gb:"team", sel:null};
+
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+function loc(it){ return it.s - st.off; }
+function fmt(m){
+  var d=0; if(m>=1440){m-=1440;d=1;} if(m<0){m+=1440;d=-1;}
+  var h=Math.floor(m/60), mm=m%60, ap=h>=12?"PM":"AM", h12=h%12||12;
+  return h12+":"+(mm<10?"0":"")+mm+" "+ap+(d===1?"<sup>+1</sup>":d===-1?"<sup>−1</sup>":"");
+}
+function plain(m){ return fmt(m).replace(/<sup>(.*?)<\/sup>/," ($1)"); }
+function teamNames(it){ return it.teams.map(function(t){return TEAMS[t];}); }
+function visible(it){
+  if(st.track==="guest" && !it.g) return false;
+  if(st.track==="H" && !(it.g==="H"||it.g==="A")) return false;
+  if(st.track==="P" && !(it.g==="P"||it.g==="A")) return false;
+  if(st.track==="staff" && it.g) return false;
+  if(st.team){ var has=it.teams.indexOf(st.team)>-1 || (st.incAS && it.teams.indexOf("AS")>-1); if(!has) return false; }
+  if(st.q){
+    var hay=(it.name+" "+it.notes+" "+it.speaker+" "+it.locs.map(function(l){return LOCS[l];}).join(" ")+" "+teamNames(it).join(" ")).toLowerCase();
+    if(hay.indexOf(st.q.toLowerCase())<0) return false;
+  }
+  return true;
+}
+function sorted(list){ return list.slice().sort(function(a,b){ return (loc(a)-loc(b)) || a.name.localeCompare(b.name); }); }
+
+function itemHtml(it){
+  var locs=it.locs.map(function(l){return LOCS[l];}).join(" · ");
+  var meta=[]; if(locs) meta.push(locs); if(it.speaker) meta.push("<b>"+esc(it.speaker)+"</b>");
+  var chips=[];
+  if(it.g) chips.push('<span class="chip g g-'+it.g+'">'+GUEST[it.g]+'</span>');
+  teamNames(it).forEach(function(t){ chips.push('<span class="chip">'+esc(t)+'</span>'); });
+  if(!it.endOk && it.e!==it.s) chips.push('<span class="chip warn">End time in Notion is before the start</span>');
+  var end = it.endOk ? '<span class="end">to '+fmt(it.e-st.off)+'</span>' : "";
+  return '<div class="item"><div class="time">'+fmt(loc(it))+end+'</div><div class="card g-'+(it.g||"")+'">'+
+    '<div class="name">'+esc(it.name)+'</div>'+
+    (meta.length?'<div class="meta">'+meta.join(" · ")+'</div>':"")+
+    (chips.length?'<div class="chips">'+chips.join("")+'</div>':"")+
+    (it.notes?'<div class="notes">'+esc(it.notes)+'</div>':"")+'</div></div>';
+}
+function miniHtml(it, withDay){
+  var w=(withDay?DAYS[it.day].n.slice(0,3)+" ":"")+plain(loc(it))+(it.endOk?" – "+plain(it.e-st.off):"");
+  var extra=[]; if(it.speaker) extra.push(it.speaker); var l=it.locs.map(function(x){return LOCS[x];}).join(" · "); if(l) extra.push(l);
+  return '<div class="mini"><div class="when">'+w+'</div><div><div class="nm">'+esc(it.name)+'</div>'+(extra.length?'<div class="meta">'+esc(extra.join(" · "))+'</div>':"")+(it.notes?'<div class="meta" style="white-space:pre-line">'+esc(it.notes)+'</div>':"")+'</div></div>';
+}
+
+/* ---------- gantt ---------- */
+var PX = 84;
+function hlabel(m){
+  var h=Math.floor(m/60), nx=h>=24, pv=h<0; h=((h%24)+24)%24;
+  return (h%12||12)+(h>=12?" PM":" AM")+(nx?" +1":pv?" −1":"");
+}
+function ganttHtml(list){
+  if(!list.length) return "";
+  var lo=1e9, hi=-1e9;
+  list.forEach(function(i){ var a=loc(i), b=i.endOk?i.e-st.off:a; if(a<lo)lo=a; if(b>hi)hi=b; });
+  var t0=Math.floor(lo/60)*60, t1=Math.ceil((hi+1)/60)*60, hours=(t1-t0)/60, W=hours*PX;
+  var lanes={}, order=[];
+  list.forEach(function(i){
+    var keys = st.gb==="time"
+      ? ["Starts "+hlabel(Math.floor(loc(i)/60)*60)]
+      : st.gb==="loc"
+      ? (i.locs.length ? i.locs.map(function(l){return LOCS[l];}) : ["No place listed"])
+      : (i.teams.length ? teamNames(i) : ["No team listed"]);
+    keys.forEach(function(k){ if(!lanes[k]){lanes[k]={items:[],first:1e9}; order.push(k);} lanes[k].items.push(i); if(loc(i)<lanes[k].first) lanes[k].first=loc(i); });
+  });
+  order.sort(function(a,b){ return (lanes[a].first-lanes[b].first) || a.localeCompare(b); });
+  var ticks="";
+  for(var h=0; h<hours; h++) ticks+='<div class="g-tick" style="left:'+(h*PX)+'px;width:'+PX+'px">'+hlabel(t0+h*60)+'</div>';
+  var rows='<div class="g-head"><div class="g-lbl"></div><div class="g-axis" style="width:'+W+'px">'+ticks+'</div></div>';
+  order.forEach(function(k){
+    var items=lanes[k].items.slice().sort(function(a,b){return loc(a)-loc(b);});
+    var rights=[], bars="";
+    items.forEach(function(i){
+      var a=loc(i), b=i.endOk?i.e-st.off:a;
+      var left=(a-t0)/60*PX, w=Math.max((b-a)/60*PX, 30), row=0;
+      while(rights[row]!==undefined && rights[row]>left-2) row++;
+      rights[row]=left+w;
+      var marker = (!i.endOk) ? " m" : "";
+      bars+='<button class="g-bar b-'+(i.g||"S")+marker+'" data-i="'+i.id+'" style="left:'+left+'px;width:'+w+'px;top:'+(row*30+4)+'px" title="'+esc(i.name+" · "+plain(a)+(i.endOk?" – "+plain(b):""))+'">'+esc(i.name)+'</button>';
+    });
+    var H=rights.length*30+8;
+    rows+='<div class="g-lane"><div class="g-lbl" style="min-height:'+H+'px">'+esc(k)+'<small>'+items.length+(items.length===1?" item":" items")+'</small></div><div class="g-track" style="width:'+W+'px;height:'+H+'px;background-size:'+PX+'px 100%">'+bars+'</div></div>';
+  });
+  return '<div class="gantt">'+rows+'</div><div class="g-detail" id="gdetail"></div>';
+}
+function showSel(){
+  var d=document.getElementById("gdetail"); if(!d) return;
+  var bars=document.querySelectorAll(".g-bar"), ok=false;
+  for(var k=0;k<bars.length;k++){ var on = st.sel!==null && +bars[k].getAttribute("data-i")===st.sel; bars[k].classList.toggle("sel", on); if(on) ok=true; }
+  d.innerHTML = ok ? itemHtml(ITEMS[st.sel]) : '<div class="g-hint">Tap a bar to see its details. Bars are colored by audience; a dashed outline means the end time is missing in Notion. '+(st.gb==="team"?"Items shared by several teams appear in each team’s lane.":st.gb==="loc"?"Items in several places appear in each place’s lane.":"Each lane holds the items that start in that hour, so the chart reads top to bottom as the day unfolds.")+'</div>';
+}
+
+var lastText = "";
+function render(){
+  var out=document.getElementById("out"), html="", text="", n=0;
+  var base=ITEMS.filter(visible);
+  if(st.view==="schedule"){
+    var list=sorted(base.filter(function(i){return i.day===st.day;}));
+    n=list.length;
+    html='<div class="daytitle">'+DAYS[st.day].n+' <span>'+DAYS[st.day].d+', 2027</span></div>'+list.map(itemHtml).join("");
+    text=DAYS[st.day].n+" "+DAYS[st.day].d+"\n"+list.map(function(i){return plain(loc(i))+"  "+i.name+(i.locs.length?" ("+i.locs.map(function(l){return LOCS[l];}).join(", ")+")":"");}).join("\n");
+  } else if(st.view==="timeline"){
+    var tl=sorted(base.filter(function(i){return i.day===st.day;}));
+    n=tl.length;
+    html='<div class="daytitle">'+DAYS[st.day].n+' <span>'+DAYS[st.day].d+', 2027 · lanes by '+(st.gb==="loc"?"place":st.gb==="time"?"start time":"team")+'</span></div>'+ganttHtml(tl);
+    text=DAYS[st.day].n+" "+DAYS[st.day].d+"\n"+tl.map(function(i){return plain(loc(i))+"  "+i.name+(i.locs.length?" ("+i.locs.map(function(l){return LOCS[l];}).join(", ")+")":"");}).join("\n");
+  } else if(st.view==="teams"){
+    var keys=Object.keys(TEAMS).filter(function(k){return !st.team||k===st.team;});
+    keys.forEach(function(k){
+      var mine=sorted(base.filter(function(i){return i.teams.indexOf(k)>-1;})).sort(function(a,b){return a.day-b.day||(loc(a)-loc(b));});
+      if(!mine.length) return; n+=mine.length;
+      html+='<details class="grp" '+(st.team||keys.length<2?"open":"")+'><summary>'+esc(TEAMS[k])+' <small>'+mine.length+' items</small></summary>'+mine.map(function(i){return miniHtml(i,true);}).join("")+'</details>';
+      text+=TEAMS[k]+"\n"+mine.map(function(i){return "  "+DAYS[i.day].n.slice(0,3)+" "+plain(loc(i))+"  "+i.name;}).join("\n")+"\n\n";
+    });
+  } else {
+    var sp=sorted(base.filter(function(i){return i.speaker;})).sort(function(a,b){return a.day-b.day||(loc(a)-loc(b));});
+    var by={}; sp.forEach(function(i){(by[i.speaker]=by[i.speaker]||[]).push(i);});
+    Object.keys(by).sort().forEach(function(k){
+      n+=by[k].length;
+      html+='<details class="grp" open><summary>'+esc(k)+' <small>'+by[k].length+' on the schedule</small></summary>'+by[k].map(function(i){return miniHtml(i,true);}).join("")+'</details>';
+      text+=k+"\n"+by[k].map(function(i){return "  "+DAYS[i.day].n.slice(0,3)+" "+plain(loc(i))+"  "+i.name;}).join("\n")+"\n\n";
+    });
+  }
+  if(!n) html='<div class="empty">No items match these filters. Clear the search or pick another track or team.</div>';
+  out.innerHTML=html; lastText=text.trim();
+  var dayView = st.view==="schedule" || st.view==="timeline";
+  document.getElementById("count").textContent=n+(n===1?" item":" items")+(dayView?" on "+DAYS[st.day].n:" across the weekend");
+  document.getElementById("dayTabs").hidden = !dayView;
+  document.getElementById("gb").hidden = st.view!=="timeline";
+  if(st.view==="timeline") showSel();
+}
+
+/* ---------- controls ---------- */
+(function init(){
+  var tabs=document.getElementById("dayTabs");
+  DAYS.forEach(function(d,i){
+    var b=document.createElement("button"); b.className="tab"; b.id="d"+i; b.setAttribute("aria-pressed", i===0);
+    b.innerHTML=d.n+"<small>"+d.d+"</small>";
+    b.onclick=function(){ st.day=i; DAYS.forEach(function(_,j){document.getElementById("d"+j).setAttribute("aria-pressed", j===i);}); render(); };
+    tabs.appendChild(b);
+  });
+  var sel=document.getElementById("team");
+  Object.keys(TEAMS).forEach(function(k){ var o=document.createElement("option"); o.value=k; o.textContent=TEAMS[k]; sel.appendChild(o); });
+  sel.onchange=function(){ st.team=sel.value; document.getElementById("asWrap").hidden=!st.team; render(); };
+  document.getElementById("incAS").onchange=function(e){ st.incAS=e.target.checked; render(); };
+  document.getElementById("track").onchange=function(e){ st.track=e.target.value; render(); };
+  document.getElementById("q").oninput=function(e){ st.q=e.target.value.trim(); render(); };
+  var VIEWS=[["vSchedule","schedule"],["vTimeline","timeline"],["vTeams","teams"],["vSpeakers","speakers"]];
+  VIEWS.forEach(function(p){
+    document.getElementById(p[0]).onclick=function(){ st.view=p[1]; VIEWS.forEach(function(q){document.getElementById(q[0]).setAttribute("aria-pressed", q[1]===st.view);}); render(); };
+  });
+  document.getElementById("gb").onchange=function(e){ st.gb=e.target.value; render(); };
+  document.getElementById("out").addEventListener("click", function(e){
+    var b=e.target.closest ? e.target.closest(".g-bar") : null; if(!b) return;
+    st.sel=+b.getAttribute("data-i"); showSel();
+  });
+  var cp=document.getElementById("copy");
+  cp.onclick=function(){
+    function done(ok){ cp.textContent=ok?"Copied":"Select and copy manually"; setTimeout(function(){cp.textContent="Copy this list";},1800); }
+    try { navigator.clipboard.writeText(lastText).then(function(){done(true);},function(){fallback();}); } catch(e){ fallback(); }
+    function fallback(){
+      try { var ta=document.createElement("textarea"); ta.value=lastText; ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta); ta.select(); var ok=document.execCommand("copy"); document.body.removeChild(ta); done(ok); } catch(e){ done(false); }
+    }
+  };
+  render();
+})();
+</script>
+
+</body></html>
